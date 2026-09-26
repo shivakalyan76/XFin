@@ -4,8 +4,8 @@ import Sidebar from '@/components/Sidebar';
 import { BusinessProvider } from '@/lib/businessStore';
 
 export const metadata: Metadata = {
-  title: 'BizPilot AI — Financial Copilot for Micro-Entrepreneurs',
-  description: 'AI-powered business advisory and financial structuring assistant',
+  title: 'XFin — AI Financial Copilot',
+  description: 'AI-powered business advisory and financial structuring assistant for micro and small enterprises',
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

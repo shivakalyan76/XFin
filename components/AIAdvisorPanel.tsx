@@ -42,15 +42,31 @@ export default function AIAdvisorPanel({
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ question: q, context: advisorContext }),
       });
-      const data = await res.json();
-      if (data.error && !data.answer) {
-        setError(data.error);
-      } else {
+
+      let data: { answer?: string; error?: string; detail?: string } = {};
+      try {
+        data = await res.json();
+      } catch {
+        // Non-JSON response
+      }
+
+      if (!res.ok) {
+        const errorMsg = data.error || data.detail || `Advisor service returned status ${res.status}`;
+        setError(errorMsg);
+        return;
+      }
+
+      if (data.answer) {
         setAnswer(data.answer);
         if (data.error) setError(data.error);
+      } else if (data.error) {
+        setError(data.error);
+      } else {
+        setError('No response received from advisor.');
       }
-    } catch (e) {
-      setError('Could not reach the AI advisor. Check your connection.');
+    } catch (e: unknown) {
+      const msg = e instanceof Error ? e.message : 'Check your connection';
+      setError(`Could not reach the AI advisor (${msg}). Please try again.`);
     } finally {
       setLoading(false);
     }
@@ -58,8 +74,8 @@ export default function AIAdvisorPanel({
 
   return (
     <Card
-      title="AI Business Advisor"
-      subtitle={`Powered by Claude · context: ${context}`}
+      title="XFin AI Advisor"
+      subtitle={`Powered by Gemini AI · context: ${context}`}
       className={compact ? '' : ''}
     >
       <div className="flex flex-wrap gap-2 mb-4">
@@ -102,7 +118,7 @@ export default function AIAdvisorPanel({
 
       {loading && (
         <div className="flex items-center gap-2 text-sm text-gray-400">
-          <Sparkles className="w-4 h-4 animate-pulse" /> Thinking through your numbers...
+          <Sparkles className="w-4 h-4 animate-pulse" /> Thinking through your numbers with Gemini AI...
         </div>
       )}
 
@@ -116,7 +132,7 @@ export default function AIAdvisorPanel({
 
       {!answer && !loading && (
         <p className="text-xs text-gray-400">
-          Tap a question above or type your own. Claude explains the numbers already calculated by the Financial
+          Tap a question above or type your own. XFin explains the numbers already calculated by the Financial
           Engine — it never invents figures.
         </p>
       )}

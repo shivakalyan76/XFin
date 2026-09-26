@@ -46,7 +46,7 @@ export default function Sidebar() {
             <Rocket className="w-3.5 h-3.5 text-white" />
           </div>
           <div>
-            <span className="font-bold text-gray-900 text-sm leading-none">BizPilot AI</span>
+            <span className="font-bold text-gray-900 text-sm leading-none">XFin</span>
             <span className="block text-[10px] text-gray-400 leading-none mt-0.5">{activeItem.label}</span>
           </div>
         </Link>
@@ -90,7 +90,7 @@ export default function Sidebar() {
               })}
             </nav>
             <div className="mt-4 pt-3 border-t border-gray-100 text-[11px] text-gray-400 text-center">
-              AI layer: Claude (LYRA-ready) · Demo data
+              AI layer: Gemini (LYRA-ready) · Demo data
             </div>
           </div>
         </div>
@@ -103,8 +103,8 @@ export default function Sidebar() {
             <Rocket className="w-4 h-4 text-white" />
           </div>
           <div>
-            <div className="font-bold text-gray-900 leading-none">BizPilot AI</div>
-            <div className="text-[11px] text-gray-400 leading-none mt-1">Financial Copilot</div>
+            <div className="font-bold text-gray-900 leading-none">XFin</div>
+            <div className="text-[11px] text-gray-400 leading-none mt-1">AI Financial Copilot</div>
           </div>
         </div>
         <nav className="flex-1 overflow-y-auto py-3 px-3 space-y-0.5">
@@ -129,7 +129,7 @@ export default function Sidebar() {
           })}
         </nav>
         <div className="p-4 border-t border-gray-100 text-[11px] text-gray-400">
-          AI layer: Claude (LYRA-ready) · Demo data
+          AI layer: Gemini (LYRA-ready) · Demo data
         </div>
       </aside>
     </>

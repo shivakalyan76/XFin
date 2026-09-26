@@ -16,7 +16,7 @@ export default function AdvisorPage() {
     <div className="space-y-6">
       <header className="flex items-center justify-between">
         <div>
-          <h1 className="text-xl font-bold text-gray-900">AI Business Advisor</h1>
+          <h1 className="text-xl font-bold text-gray-900">XFin AI Advisor</h1>
           <p className="text-sm text-gray-400">Ask anything about {business.businessName || 'your business'}'s finances.</p>
         </div>
         <ScoreBadge band={health.band} />

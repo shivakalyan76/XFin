@@ -1,33 +1,33 @@
-# BizPilot AI
+# XFin
 
-AI Business Advisory & Financial Structuring Assistant for Micro-Entrepreneurs — hackathon MVP.
+AI Financial Copilot & Business Advisory Assistant for Micro-Entrepreneurs — hackathon MVP.
 
 ## Architecture
 
 ```
 User Input (Setup form)
-   → Financial Engine   (lib/financialEngine.ts)   — pure deterministic math
-   → Risk/Analysis Engine (lib/riskEngine.ts)       — rule-based scoring, alerts
-   → AI Advisor          (app/api/advisor/route.ts) — Claude explains, never calculates
+   → Financial Engine     (lib/financialEngine.ts) — pure deterministic math
+   → Risk/Analysis Engine (lib/riskEngine.ts)      — rule-based scoring, alerts
+   → AI Provider Layer    (lib/ai/*)               — GeminiProvider / DemoProvider / LyraProvider
+   → AI Advisor Endpoint  (app/api/advisor/route.ts) — explains, never calculates
    → Dashboard            (app/*)
 ```
 
 **Golden rule enforced in code:** `financialEngine.ts` and `riskEngine.ts` never call any AI API.
 `app/api/advisor/route.ts` never does math — it only receives already-computed numbers as JSON
-context and explains them. Swapping Claude for LYRA later = editing one function
-(`callModel`/the fetch call) in that one file.
+context and passes them to the configured AI Provider (`GeminiProvider` by default).
 
 ## Run locally
 
 ```bash
 npm install
-cp .env.example .env.local   # add your ANTHROPIC_API_KEY to get real AI answers
+cp .env.example .env.local   # add your GEMINI_API_KEY from Google AI Studio
 npm run dev
 ```
 
 Open http://localhost:3000 — it loads with realistic demo data (a textile trading business)
 so the whole product is explorable with zero setup. Without an API key, the AI Advisor
-still works end-to-end but returns a clearly-labeled demo response instead of a live Claude answer.
+gracefully falls back to the `DemoProvider` so the application runs completely end-to-end.
 
 ## Deploy
 
@@ -54,7 +54,7 @@ localStorage), so there's nothing else to configure to get a working public demo
 - **Dev 1 — Frontend + Dashboard**: `app/page.tsx`, `components/*`, `app/globals.css`, Tailwind config
 - **Dev 2 — Backend + Database**: `app/api/*`, later add Postgres/Neon under `lib/db.ts` (not yet wired — inputs are localStorage-only for the demo)
 - **Dev 3 — Financial Engine + Simulator**: `lib/financialEngine.ts`, `lib/riskEngine.ts`, `app/simulator/page.tsx`
-- **Dev 4 — Claude AI + LYRA integration**: `app/api/advisor/route.ts`, `lib/aiContext.ts`, `components/AIAdvisorPanel.tsx`
+- **Dev 4 — Gemini AI + LYRA integration**: `app/api/advisor/route.ts`, `lib/ai/*`, `lib/aiContext.ts`, `components/AIAdvisorPanel.tsx`
 
 Because the Financial Engine has zero dependency on the AI layer (and vice versa), Devs 3 and 4
 can work fully in parallel — Dev 4 only needs the *shape* of `DerivedMetrics` (in `lib/types.ts`),
